@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atendimentos L2K</title>
+
+  <!-- Adicionando o ícone (favicon) -->
+  <link rel="icon" href="https://web.l2kinternet.com.br/favicon.ico" type="image/x-icon">
+
+  <!-- Importando fontes do Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Importando ícones do FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /* Estilos gerais */
+    body {
+      background-color: #181818;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0;
+      height: 100vh;
+      padding: 0 10px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 36px;
+      margin-top: 40px;
+      font-weight: 600;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Área do notepad */
+    .notepad {
+      width: 90%;
+      max-width: 900px;
+      height: 70%;
+      background-color: #292929;
+      border-radius: 15px;
+      padding: 30px;
+      margin-top: 30px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .notepad:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .textarea {
+      width: 100%;
+      height: 80%;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 16px;
+      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+      resize: none;
+      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    .textarea:focus {
+      outline: none;
+      background-color: #444;
+    }
+
+    /* Estilo para os grupos de botões */
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    #grupo-registro, #grupo-resposta {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    /* Estilo para os botões */
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Efeitos para os botões */
+    .button:hover {
+      background-color: #45a049;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .button:active {
+      background-color: #388e3c;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transform: translateY(1px);
+    }
+
+    .button i {
+      margin-right: 10px;
+    }
+
+    .button-inatividade {
+      background-color: #f44336; /* Vermelho */
+      margin-top: 20px;
+    }
+
+    .button-inatividade:hover {
+      background-color: #e53935;
+    }
+
+    .button-inatividade:active {
+      background-color: #d32f2f;
+    }
+
+    /* Estilo para a dica de mensagem copiada */
+    .message-copied {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 14px;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .message-copied.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Estilo para o campo de adicionar nota */
+    .nota-container {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .nota-container input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      background-color: #333;
+      color: white;
+      margin-right: 10px;
+      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .nota-container button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nota-container button:hover {
+      background-color: #45a049;
+    }
+
+    .nota-container button:active {
+      background-color: #388e3c;
+    }
+
+    .nota-list {
+      margin-top: 20px;
+    }
+
+    .nota-item {
+      background-color: #444;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nota-item button {
+      background-color: #f44336;
+      border: none;
+      color: white;
+      font-size: 16px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nota-item button:hover {
+      background-color: #e53935;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Atendimentos L2K</h1>
+
+  <div class="notepad">
+    <textarea class="textarea" id="textarea" placeholder="Digite suas anotações aqui..."></textarea>
+
+    <!-- Grupo de botões Registro de Atendimento -->
+    <div class="buttons" id="grupo-registro">
+      <h2>Registro de Atendimento</h2>
+      <button class="button" onclick="adicionarECopiarMensagem('Cliente solicitou a segunda via da fatura, enviada por WhatsApp.')">Segunda Via</button>
+      <button class="button" onclick="adicionarECopiarMensagem('Cliente solicitou desbloqueio de confiança, promessa de pagamento para o dia.')">Desbloqueio de confiança</button>
+      <button class="button" onclick="adicionarECopiarMensagem('Cliente alegou lentidão no uso, resolvido após reinicialização.')">Lentidão</button>
+    </div>
+
+    <!-- Grupo de botões Respostas -->
+    <div class="buttons" id="grupo-resposta">
+      <h2>Respostas para o Cliente</h2>
+      <button class="button" onclick="adicionarECopiarMensagem('Agradecemos pelo pagamento, comprovante registrado no sistema. Qualquer dúvida, estamos à sua disposição!')">Agradecer pagamento</button>
+      <button class="button" onclick="adicionarECopiarMensagem('Pagamento por PIX é automático e leva até 10 minutos para ser processado. O boleto bancário tem um prazo de 2 dias úteis, mas, se me enviar o comprovante, consigo realizar a baixa manualmente.')">Pagamento PIX</button>
+      <button class="button" onclick="adicionarECopiarMensagem('Enquanto a função estiver ativada, diversas funções são colocadas em pausa e o desempenho do aparelho é reduzido em cerca de 40%.')">Economia de Energia</button>
+      <button class="button" onclick="adicionarECopiarMensagem('INSTALAÇÃO 000MB / SEM ADESÃO / WI-FI / APARELHO EM COMODATO / ATIVAR ACESSO REMOTO.')">Instalação</button>
+      <button class="button" onclick="adicionarECopiarMensagem(' *100% FIBRA. Seguem os valores para contratação neste mês:\n\n📌*200MB* R$79,90 + APP L2K TV\n📌*300MB* R$89,90 + APP L2K TV + 1 APP grátis*\n📌*400MB* R$99,90 + APP L2K TV + 1 APP grátis*\n📌*700MB* R$109,90 + APP L2K TV + 1 APP grátis*\n\n*APARELHO WI-FI INCLUSO*\nValores e condições exclusivas para a contratação COM FIDELIDADE de 12 meses.\n* Todos os planos acompanham o benefício do DIGILIVRO, onde você cliente tem na palma da mão diversos livros para ler no dia a dia.\n\n* APPs Inclusos no PLANO:\n    🔹Kids SA (Inglês para crianças)\n    🔹Megarevista (Informação Tecnologia)\n    🔹Digilivro (Livraria Digital)\n\n* A L2k disponibiliza mais de 100 canais de TV ONLINE em todos seus planos!\n_(App de canais feito para celular, e compatível com algumas TVs Smart)_\n\n*Aproveite agora!* Valores e condições sujeitos a alteração sem aviso prévio.')">Plano Fibra</button>
+    </div>
+
+    <!-- Botão Inatividade -->
+    <button class="button-inatividade" onclick="adicionarECopiarMensagem('Estou encerrando o atendimento por inatividade, qualquer dúvida estamos à sua disposição!')">Inatividade</button>
+
+    <!-- Botão para abrir a calculadora -->
+    <div class="buttons">
+      <button class="button" onclick="window.location.href='Z:\Julio\calculadora pro rata.html">Calculadora</button>
+    </div>
+
+  </div>
+
+  <!-- Bloco para adicionar e salvar notas -->
+  <div class="nota-container">
+    <input type="text" id="nota-input" placeholder="Digite uma nota...">
+    <button onclick="salvarNota()">Salvar Nota</button>
+    <div class="nota-list" id="nota-list"></div>
+  </div>
+
+  <div class="message-copied" id="message-copied">Mensagem copiada para a área de transferência!</div>
+
+  <script>
+    // Função para adicionar e copiar mensagem de forma conjunta
+    function adicionarECopiarMensagem(mensagem) {
+      // Adiciona a mensagem no campo de texto
+      const textarea = document.getElementById('textarea');
+      textarea.value += mensagem + '\n';  // Adiciona a mensagem no final do conteúdo atual
+
+      // Cria um elemento input temporário para copiar a mensagem
+      const tempInput = document.createElement('input');
+      tempInput.value = mensagem;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      // Exibe a mensagem de "copiado"
+      const messageCopied = document.getElementById('message-copied');
+      messageCopied.classList.add('show');
+      setTimeout(function() {
+        messageCopied.classList.remove('show');
+      }, 2000);  // A mensagem de cópia desaparecerá após 2 segundos
+    }
+
+    // Função para salvar nota no localStorage
+    function salvarNota() {
+      const input = document.getElementById('nota-input');
+      const nota = input.value.trim();
+      if (nota) {
+        const notas = JSON.parse(localStorage.getItem('notas')) || [];
+        notas.push(nota);
+        localStorage.setItem('notas', JSON.stringify(notas));
+        mostrarNotas();
+        input.value = '';
+      }
+    }
+
+    // Função para exibir as notas
+    function mostrarNotas() {
+      const notas = JSON.parse(localStorage.getItem('notas')) || [];
+      const listaNotas = document.getElementById('nota-list');
+      listaNotas.innerHTML = '';
+      notas.forEach((nota, index) => {
+        const div = document.createElement('div');
+        div.classList.add('nota-item');
+        div.textContent = nota;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Apagar';
+        deleteBtn.onclick = function() {
+          apagarNota(index);
+        };
+
+        div.appendChild(deleteBtn);
+        listaNotas.appendChild(div);
+      });
+    }
+
+    // Função para apagar nota do localStorage
+    function apagarNota(index) {
+      const notas = JSON.parse(localStorage.getItem('notas')) || [];
+      notas.splice(index, 1);
+      localStorage.setItem('notas', JSON.stringify(notas));
+      mostrarNotas();
+    }
+
+    // Exibe as notas ao carregar a página
+    window.onload = mostrarNotas;
+  </script>
+
+</body>
+</html>
